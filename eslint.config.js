@@ -45,7 +45,7 @@ export default ts.config(
         { allowConstantExport: true },
       ],
       "prefer-const": "error",
-      "prettier/prettier": ["warn", {}],
+      "prettier/prettier": ["off", {}],
       "react/jsx-curly-brace-presence": [
         "warn",
         { props: "never", children: "never" },
