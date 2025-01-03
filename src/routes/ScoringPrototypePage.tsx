@@ -174,7 +174,8 @@ export default function ScoringPrototypePage() {
             {(() => {
               if (EssayQuestions.length > 0) {
                 return `${essayQuestionsTotalScore + scorePoolLeft} ( ${
-                  (essayQuestionsTotalScore + scorePoolLeft / totalScore) * 100
+                  ((essayQuestionsTotalScore + scorePoolLeft) / totalScore) *
+                  100
                 }%) `;
               } else {
                 return 0;
