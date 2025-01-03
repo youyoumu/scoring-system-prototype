@@ -30,15 +30,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Set up Node
-        uses: actions/setup-node@v4
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: 20
-          cache: 'npm'
+          bun-version: latest
       - name: Install dependencies
-        run: npm ci
+        run: bun i
+      - name: Check types
+        run: bun run type-check
+      - name: Check linting
+        run: bun run lint
       - name: Build
-        run: npm run build
+        run: bun run build
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
