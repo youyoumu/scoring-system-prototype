@@ -182,7 +182,7 @@ export default function ScoringPrototypePage() {
               }
             })()}
           </div>
-          <div>score prool left: {scorePoolLeft}</div>
+          <div>score pool left: {scorePoolLeft}</div>
         </div>
       </div>
     </div>
