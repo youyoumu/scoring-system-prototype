@@ -11,7 +11,7 @@ const router = createBrowserRouter([
     errorElement: <Error />,
     children: [
       {
-        path: "/",
+        path: "/scoring-system-prototype",
         element: <ScoringPrototypePage />,
       },
     ],
