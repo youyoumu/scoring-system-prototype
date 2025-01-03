@@ -13,8 +13,8 @@ type EssayQuestion = {
 };
 
 export default function ScoringPrototypePage() {
-  const totalScore = 100;
-  const [defaultPGScore, setDefaultPGScore] = useState(1);
+  const totalScore = 1000;
+  const [defaultPGScore, setDefaultPGScore] = useState(10);
   const [PGQuestions, setPGQuestions] = useState<PGQuestion[]>([]);
   const [EssayQuestions, setEssayQuestions] = useState<EssayQuestion[]>([]);
 
@@ -70,7 +70,6 @@ export default function ScoringPrototypePage() {
             <input
               type="number"
               className="bg-slate-700"
-              step={0.1}
               value={defaultPGScore}
               onChange={(e) => {
                 setDefaultPGScore(Number(e.target.value));
@@ -112,7 +111,17 @@ export default function ScoringPrototypePage() {
                       return question.score === 0;
                     }
                   );
-                  return scorePoolLeft / essayQuestionsWithoutScore.length;
+                  const baseScore = Math.floor(
+                    scorePoolLeft / essayQuestionsWithoutScore.length
+                  );
+                  const remainingPoints =
+                    scorePoolLeft % essayQuestionsWithoutScore.length;
+                  // Find index of current question in the unscored questions array
+                  const currentIndex = essayQuestionsWithoutScore.findIndex(
+                    (q) => q.id === question.id
+                  );
+                  // Add 1 extra point to first N questions where N is the remainder
+                  return baseScore + (currentIndex < remainingPoints ? 1 : 0);
                 }
               })();
               return (
@@ -154,7 +163,7 @@ export default function ScoringPrototypePage() {
             total score pg:{" "}
             {(() => {
               if (EssayQuestions.length > 0) {
-                return PGQuestionsTotalScore;
+                return `${PGQuestionsTotalScore} (${(PGQuestionsTotalScore / totalScore) * 100}%)`;
               } else {
                 return totalScore;
               }
@@ -164,7 +173,9 @@ export default function ScoringPrototypePage() {
             total score essay:{" "}
             {(() => {
               if (EssayQuestions.length > 0) {
-                return essayQuestionsTotalScore + scorePoolLeft;
+                return `${essayQuestionsTotalScore + scorePoolLeft} ( ${
+                  (essayQuestionsTotalScore + scorePoolLeft / totalScore) * 100
+                }%) `;
               } else {
                 return 0;
               }
