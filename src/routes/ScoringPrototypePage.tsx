@@ -32,11 +32,11 @@ export default function ScoringPrototypePage() {
   const scorePoolLeft =
     totalScore - totalDefinedScore <= 0 ? 0 : totalScore - totalDefinedScore;
   return (
-    <div className="h-svh w-screen">
+    <div className="h-svh w-screen p-4">
       <div className="flex flex-col gap-8">
-        <div className="flex gap-2 text-white">
+        <div className="flex items-end gap-2 text-white">
           <button
-            className="bg-slate-700 p-2"
+            className="btn"
             onClick={() => {
               setPGQuestions([
                 ...PGQuestions,
@@ -51,7 +51,7 @@ export default function ScoringPrototypePage() {
             tambah soal pg
           </button>
           <button
-            className="bg-slate-700 p-2"
+            className="btn"
             onClick={() => {
               setEssayQuestions([
                 ...EssayQuestions,
@@ -65,11 +65,11 @@ export default function ScoringPrototypePage() {
           >
             tambah soal essay
           </button>
-          <div className="flex flex-col gap-1 bg-slate-700">
-            <div className="">default pg score</div>
+          <div className="flex flex-col">
+            <div className="label-text">default pg score</div>
             <input
               type="number"
-              className="bg-slate-700"
+              className="input input-bordered"
               value={defaultPGScore}
               onChange={(e) => {
                 setDefaultPGScore(Number(e.target.value));
@@ -84,7 +84,7 @@ export default function ScoringPrototypePage() {
           </div>
         </div>
         <div className="flex gap-4">
-          <div className="border">
+          <div className="card card-body card-bordered card-compact shadow-xl">
             {PGQuestions.map((question, i) => {
               const score = (() => {
                 if (EssayQuestions.length > 0) {
@@ -100,7 +100,7 @@ export default function ScoringPrototypePage() {
               );
             })}
           </div>
-          <div className="border">
+          <div className="card card-body card-bordered card-compact shadow-xl">
             {EssayQuestions.map((question) => {
               const score = (() => {
                 if (question.score > 0) {
@@ -125,12 +125,12 @@ export default function ScoringPrototypePage() {
                 }
               })();
               return (
-                <div className="flex" key={question.id}>
+                <div className="flex items-center gap-2" key={question.id}>
                   <div>{`soal essay: ${question.question} - score: `}</div>
                   <input
                     type="number"
                     value={score}
-                    className="border"
+                    className="input input-sm input-bordered"
                     onChange={(e) => {
                       setEssayQuestions((prev) => {
                         return prev.map((prevQuestion) => {
@@ -148,41 +148,54 @@ export default function ScoringPrototypePage() {
             })}
           </div>
         </div>
-        <div className="border">
-          <div>target total score: {totalScore}</div>
-          <div />
-          total score:{" "}
-          {(() => {
-            if (EssayQuestions.length > 0) {
-              return totalDefinedScore + scorePoolLeft;
-            } else {
-              return totalScore;
-            }
-          })()}
-          <div>
-            total score pg:{" "}
-            {(() => {
-              if (EssayQuestions.length > 0) {
-                return `${PGQuestionsTotalScore} (${(PGQuestionsTotalScore / totalScore) * 100}%)`;
-              } else {
-                return totalScore;
-              }
-            })()}
+        <div className="card card-body card-bordered grid grid-cols-2 shadow-xl">
+          <div className="stat">
+            <div className="stat-title">target total score</div>
+            <div className="stat-value">{totalScore}</div>
           </div>
-          <div>
-            total score essay:{" "}
-            {(() => {
-              if (EssayQuestions.length > 0) {
-                return `${essayQuestionsTotalScore + scorePoolLeft} ( ${
-                  ((essayQuestionsTotalScore + scorePoolLeft) / totalScore) *
-                  100
-                }%) `;
-              } else {
-                return 0;
-              }
-            })()}
+          <div className="stat">
+            <div className="stat-title">total score</div>
+            <div className="stat-value">
+              {(() => {
+                if (EssayQuestions.length > 0) {
+                  return totalDefinedScore + scorePoolLeft;
+                } else {
+                  return totalScore;
+                }
+              })()}
+            </div>
           </div>
-          <div>score pool left: {scorePoolLeft}</div>
+          <div className="stat">
+            <div className="stat-title">total score pg</div>
+            <div className="stat-value">
+              {(() => {
+                if (EssayQuestions.length > 0) {
+                  return `${PGQuestionsTotalScore} (${Math.round((PGQuestionsTotalScore / totalScore) * 100)}%)`;
+                } else {
+                  return totalScore;
+                }
+              })()}
+            </div>
+          </div>
+          <div className="stat">
+            <div className="stat-title">total score essay</div>
+            <div className="stat-value">
+              {(() => {
+                if (EssayQuestions.length > 0) {
+                  return `${essayQuestionsTotalScore + scorePoolLeft} ( ${Math.round(
+                    ((essayQuestionsTotalScore + scorePoolLeft) / totalScore) *
+                      100
+                  )}%) `;
+                } else {
+                  return 0;
+                }
+              })()}
+            </div>
+          </div>
+          <div className="stat">
+            <div className="stat-title">score pool left</div>
+            <div className="stat-value">{scorePoolLeft}</div>
+          </div>
         </div>
       </div>
     </div>
